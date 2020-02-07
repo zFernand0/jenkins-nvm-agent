@@ -1,5 +1,5 @@
 # This docker file will build on the jenkins-agent to provide access to npm utilities
-FROM ahumanfromca/jenkins-agent
+FROM zfernand0/jenkins-agent
 
 USER root
 
@@ -27,13 +27,13 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs expect build-essential maven ca-certificates-java && update-ca-certificates -f
 ENV NODE_JS_NVM_VERSION 10.18.1
 
-# Install nvm to enable multiple versions of node runtime and define environment 
+# Install nvm to enable multiple versions of node runtime and define environment
 # variable for setting the desired node js version (defaulted to "current" for Node.js)
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 # dd the jenkins users
 RUN groupadd npmusers \
-  && usermod -aG npmusers jenkins 
+  && usermod -aG npmusers jenkins
 
 # Also install nvm for user jenkins
 USER jenkins
@@ -65,7 +65,7 @@ ARG scriptsDir=/usr/local/bin/
 COPY docker-entrypoint.sh ${scriptsDir}
 COPY install_node.sh ${scriptsDir}
 
-# Execute the setup script when the image is run. Setup will install the desired version via 
+# Execute the setup script when the image is run. Setup will install the desired version via
 # nvm for both the root user and jenkins - then start the ssh service
 ENTRYPOINT ["docker-entrypoint.sh"]
 
