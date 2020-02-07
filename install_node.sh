@@ -15,11 +15,16 @@ NODE_VERSION=$1
 . ~/.profile
 . ~/.bashrc
 
+TEMP_PREFIX=$NPM_CONFIG_PREFIX
+export NPM_CONFIG_PREFIX=
+
 # Install the requested version, use the version, and set the default
 # for any further terminals
 nvm install $NODE_VERSION
 nvm use --delete-prefix $NODE_VERSION
 nvm alias default $NODE_VERSION
+
+export NPM_CONFIG_PREFIX=$TEMP_PREFIX
 
 exit 0
 
